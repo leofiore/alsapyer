@@ -27,12 +27,15 @@ static PyObject *
 alsapyer_find_session(PyObject *self, PyObject *args)
 {
     char *session_name;
-    int session, result;
+    int session = -1, result;
 
     if (!PyArg_ParseTuple(args, "s", &session_name))
         return NULL;
 
     result = ap_find_session(session_name, &session);
+
+    if (result == -1)
+        return NULL;
 
     return Py_BuildValue("i", session);
 }
