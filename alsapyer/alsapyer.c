@@ -730,14 +730,14 @@ alsapyer_get_status(PyObject *self, PyObject *args){
 static PyObject *
 alsapyer_is_playing(PyObject *self, PyObject *args){
 
-    int session, *paused, result;
+    int session, paused = 0, result;
 
     if (!PyArg_ParseTuple(args, "i", &session))
         return NULL;
 
-    result = ap_is_playing(session, paused);
+    result = ap_is_playing(session, &paused);
 
-    return Py_BuildValue("i", *paused);
+    return Py_BuildValue("i", paused);
 }
 
 
