@@ -795,12 +795,12 @@ alsapyer_jump_to(PyObject *self, PyObject *args){
 static PyObject *
 alsapyer_get_playlist_position(PyObject *self, PyObject *args){
 
-    int session, *pos, result;
+    int session, pos, result;
 
-    if (!PyArg_ParseTuple(args, "ii", &session, &pos))
+    if (!PyArg_ParseTuple(args, "i", &session))
         return NULL;
 
-    result = ap_get_playlist_position(session, pos);
+    result = ap_get_playlist_position(session, &pos);
 
     return Py_BuildValue("i", pos);
 }
