@@ -35,7 +35,7 @@ def pkgconfig(*packages, **kw):
 
 setup(
     name="alsapyer",
-    version="0.1.1",
+    version="0.1.2",
     description="A ridicolously simple Python binding for libalsaplayer",
     author="Leonardo",
     author_email="leonardo@perpli.me",
