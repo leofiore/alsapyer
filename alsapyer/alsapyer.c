@@ -811,9 +811,10 @@ alsapyer_get_file_path_for_track(PyObject *self, PyObject *args){
     int session, pos, result;
     char path[AP_FILE_PATH_MAX];
 
-    if (!PyArg_ParseTuple(args, "isi", &session, &path, &pos))
+    if (!PyArg_ParseTuple(args, "ii", &session, &pos))
         return NULL;
 
+    bzero(&path, sizeof(char) * 256);
     result = ap_get_file_path_for_track(session, &path[0], pos);
 
     return Py_BuildValue("s", &path[0]);
