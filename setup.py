@@ -23,19 +23,22 @@
 #!/usr/bin/env python
 from distutils.core import setup
 from distutils.extension import Extension
-import commands
+from subprocess import Popen, PIPE
 
 
 def pkgconfig(*packages, **kw):
     flag_map = {'-I': 'include_dirs', '-L': 'library_dirs', '-l': 'libraries'}
-    for token in commands.getoutput(
-            "pkg-config --libs --cflags %s" % ' '.join(packages)).split():
+    p = Popen(
+        "pkg-config --libs --cflags".split() + list(packages),
+        stdout=PIPE
+    )
+    for token in p.communicate()[0].decode().strip().split():
         kw.setdefault(flag_map.get(token[:2]), []).append(token[2:])
     return kw
 
 setup(
     name="alsapyer",
-    version="0.1.3",
+    version="0.2",
     description="A ridicolously simple Python binding for libalsaplayer",
     author="Leonardo",
     author_email="leonardo@perpli.me",
@@ -57,6 +60,8 @@ setup(
     classifiers=[
         "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.4",
         "Programming Language :: C",
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",

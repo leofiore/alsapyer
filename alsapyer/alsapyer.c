@@ -875,7 +875,7 @@ alsapyer_get_playlist(PyObject *self, PyObject *args){
     list = PyList_New(argc);
     
     for(i = 0; i < argc; i++) {
-        ref = PyString_FromString(*(the_list + i));
+        ref = PyUnicode_FromString(*(the_list + i));
         PyList_SetItem(list, (Py_ssize_t) i, ref);
     }
 
@@ -980,8 +980,30 @@ static PyMethodDef AlsapyerMethods[] = {
     {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
+#if PY_MAJOR_VERSION >= 3
+static struct PyModuleDef moduledef = {
+    PyModuleDef_HEAD_INIT,
+    "alsapyer",         /* m_name */
+    NULL,               /* m_doc */
+    -1,                 /* m_size */
+    AlsapyerMethods,    /* m_methods */
+    NULL,                /* m_reload */
+    NULL,                /* m_traverse */
+    NULL,                /* m_clear */
+    NULL,                /* m_free */
+};
+#endif
+
 PyMODINIT_FUNC
+#if PY_MAJOR_VERSION >= 3
+PyInit_alsapyer(void)
+#else
 initalsapyer(void)
+#endif
 {
+#if PY_MAJOR_VERSION >= 3
+    (void) PyModule_Create(&moduledef);
+#else
     (void) Py_InitModule("alsapyer", AlsapyerMethods);
+#endif
 }
